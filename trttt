@@ -1,0 +1,31 @@
+import os
+
+
+def get_source(train_path):
+    """
+    获取位置、中文及拼音
+    :param train_path:
+    :return:
+    """
+    for root, _, files in os.walk(train_path):
+        for file in files:
+
+            lst = []
+
+            if file.endswith('.wav') or file.endswith('.WAV'):
+                wav_file = 'data_thchs30/train/'+file
+
+                label_path = 'data/data_thchs30/data/' + file + '.trn'
+                with open(label_path, 'r', encoding='utf8') as f:
+                    label = f.readlines()
+
+                    hz = label[0].replace(" ", "")
+                    py = label[1].replace("\n", "\t")
+
+                with open('thchs_train.txt', 'a', encoding='utf8') as f:
+                    f.write(wav_file+'\t'+py+hz)
+
+
+if __name__ == '__main__':
+    train_path = 'E:/voice4/data/data_thchs30/train'
+    get_source(train_path)
